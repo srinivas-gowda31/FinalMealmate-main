@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - MealMate</title>
+    <link rel="stylesheet" href="{% static 'delivery/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Meal<span>Mate</span></div>
+            <nav>
+                <a href="/">Home</a>
+                <span class="user-info">👤 {{ username }}</span>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero text-center fade-in">
+            <h1>🛒 Your Shopping Cart</h1>
+            <p>Review your items and proceed to checkout</p>
+        </div>
+
+        <div class="checkout-grid">
+            <div>
+                <section>
+                    <h2>Cart Items</h2>
+                    
+                    {% if itemList %}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in itemList %}
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.description|truncatewords:10 }}</td>
+                                    <td style="text-align: right; font-weight: 600;">₹{{ item.price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="message message-info">
+                            <p>🛒 Your cart is empty. Start adding some delicious items!</p>
+                        </div>
+                    {% endif %}
+                </section>
+            </div>
+
+            <div class="cart-summary">
+                <h3>Order Total</h3>
+                
+                <div class="summary-item">
+                    <span>Subtotal</span>
+                    <span>₹{{ total_price }}</span>
+                </div>
+                
+                <div class="summary-item">
+                    <span>Delivery Charge</span>
+                    <span style="color: var(--success-color);">FREE</span>
+                </div>
+                
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span>₹{{ total_price }}</span>
+                </div>
+
+                {% if itemList %}
+                    <form action="{% url 'checkout' username %}" method="get" style="margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                            💳 Proceed to Checkout
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="/" class="btn btn-primary btn-lg btn-block" style="text-decoration: none; display: block; margin-top: 2rem;">
+                        Continue Shopping
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MealMate. All rights reserved.</p>
+    </footer>
+</body>
+</html>

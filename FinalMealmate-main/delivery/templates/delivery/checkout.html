@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - MealMate</title>
+    <link rel="stylesheet" href="{% static 'delivery/css/style.css' %}">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Meal<span>Mate</span></div>
+            <nav>
+                <a href="/">Home</a>
+                <span class="user-info">🛒 {{ username }}</span>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="checkout-container fade-in">
+            <section class="checkout-hero">
+                <p class="checkout-kicker">Secure Payment</p>
+                <h1 class="checkout-title">Complete Your Order</h1>
+                <p class="checkout-subtitle">Fast checkout with encrypted Razorpay payment processing.</p>
+            </section>
+
+            {% if error %}
+            <div class="message message-error">
+                <strong>⚠️ Error:</strong> {{ error }}
+            </div>
+            {% else %}
+                <div class="checkout-grid">
+                    <div>
+                        <section>
+                            <h2>Order Summary</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in cart_items %}
+                                    <tr>
+                                        <td>{{ item.name }}</td>
+                                        <td style="text-align: right;">₹{{ item.price }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+
+                    <div class="cart-summary">
+                        <h3 class="checkout-side-title">Price Details</h3>
+                        
+                        <div class="summary-item">
+                            <span>Subtotal</span>
+                            <span>₹{{ total_price }}</span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span>Delivery Fee</span>
+                            <span style="color: var(--success-color);">FREE</span>
+                        </div>
+                        
+                        <div class="summary-total">
+                            <span>Total Amount</span>
+                            <span>₹{{ total_price }}</span>
+                        </div>
+
+                                                <button id="rzp-button" class="btn btn-primary btn-lg btn-block checkout-pay-btn">
+                                                    Pay Now with Razorpay
+                        </button>
+
+                                                <div class="checkout-trust-list">
+                                                    <p>256-bit encrypted transaction</p>
+                                                    <p>Instant payment confirmation</p>
+                                                    <p>UPI, card, netbanking, wallet support</p>
+                                                </div>
+                    </div>
+                </div>
+
+                                        <p class="checkout-security-note">
+                                            Secure payment powered by Razorpay. Your payment information is encrypted and protected.
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MealMate. All rights reserved.</p>
+    </footer>
+
+    <script>
+        var options = {
+            "key": "{{ razorpay_key_id }}",
+            "amount": Math.round({{ total_price }} * 100),
+            "currency": "INR",
+            "name": "MealMate",
+            "description": "Food Order Payment",
+            "order_id": "{{ order_id }}",
+            "handler": function (response) {
+                if (response.razorpay_payment_id) {
+                    alert("✓ Payment Successful! Order Confirmed.");
+                    window.location.href = "{% url 'orders' username %}";
+                } else {
+                    alert("✗ Payment Failed. Please try again.");
+                }
+            },
+            "prefill": {
+                "name": "{{ username }}",
+                "email": "customer@mealmate.com",
+                "contact": "9999999999"
+            },
+            "theme": {
+                "color": "#FFC107"
+            },
+            "modal": {
+                "ondismiss": function() {
+                    alert("Payment cancelled. Your cart items remain saved.");
+                }
+            }
+        };
+
+        var rzp = new Razorpay(options);
+
+        document.getElementById('rzp-button').onclick = function(e) {
+            e.preventDefault();
+            rzp.open();
+        }
+    </script>
+</body>
+</html>

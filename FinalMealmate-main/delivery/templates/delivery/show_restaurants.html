@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Restaurants - MealMate Admin</title>
+    <link rel="stylesheet" href="{% static 'delivery/css/style.css' %}">
+    <style>
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .btn-sm {
+            flex: 1;
+            min-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Meal<span>Mate</span></div>
+            <nav>
+                <a href="/">Home</a>
+                <a href="{% url 'open_add_restaurant' %}" style="background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; border-radius: 0.5rem;">+ Add Restaurant</a>
+                <span class="user-info">🍽️ Admin</span>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero text-center fade-in">
+            <h1>🏪 Manage Restaurants</h1>
+            <p>View, edit, and delete your restaurant listings</p>
+        </div>
+
+        <section>
+            {% if restaurantList %}
+                <div class="card-grid">
+                    {% for r in restaurantList %}
+                        <div class="card slide-in">
+                            {% if r.picture %}
+                                <img src="{{ r.picture }}" alt="{{ r.name }}" class="card-image" onerror="this.src='https://via.placeholder.com/280x200?text=Restaurant'">
+                            {% else %}
+                                <div class="card-image" style="display: flex; align-items: center; justify-content: center; font-size: 3rem; background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);">🍽️</div>
+                            {% endif %}
+                            
+                            <div class="card-content">
+                                <h3 class="card-title">{{ r.name }}</h3>
+                                
+                                <div class="card-meta">
+                                    <span class="card-rating">⭐ {{ r.rating }}/5</span>
+                                    <span>{{ r.cuisine }}</span>
+                                </div>
+                                
+                                <div class="action-buttons" style="margin-top: 1rem;">
+                                    <a href="{% url 'open_update_restaurant' r.id %}" class="btn btn-secondary btn-sm">
+                                        ✏️ Edit
+                                    </a>
+                                    <a href="{% url 'open_update_menu' r.id %}" class="btn btn-primary btn-sm">
+                                        🍽️ Menu
+                                    </a>
+                                    <a href="{% url 'delete_restaurant' r.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                        🗑️ Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="message message-info">
+                    <p>No restaurants found. <a href="{% url 'open_add_restaurant' %}" style="color: var(--primary-color); font-weight: 600;">Create your first restaurant</a></p>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MealMate. All rights reserved.</p>
+    </footer>
+</body>
+</html>

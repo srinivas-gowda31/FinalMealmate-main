@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - MealMate</title>
+    <link rel="stylesheet" href="{% static 'delivery/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Meal<span>Mate</span></div>
+            <nav>
+                <a href="/">Home</a>
+                <span class="user-info">👤 {{ username }}</span>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="text-center fade-in" style="padding: 3rem 0;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+            <h1 style="color: var(--success-color); margin-bottom: 0.5rem;">Order Confirmed!</h1>
+            <p style="font-size: 1.1rem; color: #666;">Thank you for your order, {{ username }}!</p>
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                <div class="card">
+                    <div class="card-content">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary-color);">📦 Delivery Address</h3>
+                        <p style="line-height: 1.8;">
+                            {{ customer.address }}
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-content">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary-color);">💰 Order Total</h3>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--secondary-color);">₹{{ total_price }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <section>
+                <h2>Order Items</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th style="text-align: right;">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td style="text-align: right; font-weight: 600;">₹{{ item.price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+
+            <div class="message message-success" style="margin-top: 2rem;">
+                <p>✓ Your order will be delivered soon. You will receive updates via email and SMS.</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                {% if cart_items %}
+                    <a href="{% url 'customer_menu' cart_items.0.restaurant.id username %}" class="btn btn-secondary">
+                        Back to Restaurant
+                    </a>
+                {% endif %}
+                <a href="/" class="btn btn-primary" style="margin-left: 1rem;">
+                    Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MealMate. All rights reserved.</p>
+    </footer>
+</body>
+</html>

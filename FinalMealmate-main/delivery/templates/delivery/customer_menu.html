@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - MealMate</title>
+    <link rel="stylesheet" href="{% static 'delivery/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Meal<span>Mate</span></div>
+            <nav>
+                <a href="/">Home</a>
+                <a href="{% url 'show_cart' username %}" style="background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; border-radius: 0.5rem;">🛒 View Cart</a>
+                <span class="user-info">👤 {{ username }}</span>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero text-center fade-in">
+            <h1>{{ restaurant.name }} Menu</h1>
+            <p>⭐ Rating: {{ restaurant.rating }}/5 • 🍽️ {{ restaurant.cuisine }}</p>
+        </div>
+
+        <section>
+            <h2>Available Items</h2>
+            
+            {% if itemList %}
+                <div class="card-grid">
+                    {% for item in itemList %}
+                        <div class="card slide-in">
+                            {% if item.picture %}
+                                <img src="{{ item.picture }}" alt="{{ item.name }}" class="card-image" onerror="this.src='https://via.placeholder.com/280x200?text=Dish'">
+                            {% else %}
+                                <div class="card-image" style="display: flex; align-items: center; justify-content: center; font-size: 3rem; background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);">🍽️</div>
+                            {% endif %}
+                            
+                            <div class="card-content">
+                                <h3 class="card-title">{{ item.name }}</h3>
+                                
+                                <p class="card-description">{{ item.description }}</p>
+                                
+                                <div class="card-meta">
+                                    <span>
+                                        {% if item.vegeterian %}
+                                            🌱 Vegetarian
+                                        {% else %}
+                                            🍖 Non-Vegetarian
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div class="card-price">₹{{ item.price }}</div>
+                                    <a href="{% url 'add_to_cart' item.id username %}" class="btn btn-primary btn-sm">
+                                        + Add
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="message message-info">
+                    <p>No items available in this restaurant menu.</p>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MealMate. All rights reserved.</p>
+    </footer>
+</body>
+</html>

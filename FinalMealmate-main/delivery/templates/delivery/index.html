@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MealMate - Food Delivery</title>
+    <link rel="stylesheet" href="{% static 'delivery/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Meal<span>Mate</span></div>
+            <nav>
+                <a href="/">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero text-center fade-in">
+            <h1>🍽️ Are you starving?</h1>
+            <p>Discover delicious meals from top restaurants near you</p>
+            <p style="font-size: 1rem; margin-top: 1.5rem;">Get started with MealMate today</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 600px; margin: 3rem auto;">
+            <a href="{% url 'open_signup' %}" class="btn btn-primary btn-lg" style="text-decoration: none;">
+                📝 Create Account
+            </a>
+            <a href="{% url 'open_signin' %}" class="btn btn-secondary btn-lg" style="text-decoration: none;">
+                🔐 Sign In
+            </a>
+        </div>
+
+        <section class="text-center mt-4">
+            <h2>How MealMate Works</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div class="card">
+                    <div style="font-size: 2.5rem; padding: 2rem;">🔍</div>
+                    <h3>Find Restaurants</h3>
+                    <p>Browse delicious restaurants with diverse cuisines</p>
+                </div>
+                <div class="card">
+                    <div style="font-size: 2.5rem; padding: 2rem;">🛒</div>
+                    <h3>Add to Cart</h3>
+                    <p>Select your favorite items and add them to your cart</p>
+                </div>
+                <div class="card">
+                    <div style="font-size: 2.5rem; padding: 2rem;">💳</div>
+                    <h3>Safe Payment</h3>
+                    <p>Secure checkout with Razorpay payment gateway</p>
+                </div>
+                <div class="card">
+                    <div style="font-size: 2.5rem; padding: 2rem;">🚚</div>
+                    <h3>Order Tracking</h3>
+                    <p>Track your order status in real-time</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MealMate. All rights reserved.</p>
+        <p>Delivering happiness, one meal at a time</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MealMate</title>
+    <link rel="stylesheet" href="{% static 'delivery/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Meal<span>Mate</span></div>
+            <nav>
+                <a href="/">Home</a>
+                <span class="user-info">👤 Admin Dashboard</span>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero text-center fade-in">
+            <h1>🎛️ Admin Control Panel</h1>
+            <p>Manage your restaurants and menu items</p>
+        </div>
+
+        <section>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                
+                <div class="card slide-in">
+                    <div style="font-size: 3rem; padding: 2rem; background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white; display: flex; align-items: center; justify-content: center;">🏪</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Add Restaurant</h3>
+                        <p class="card-description">Create a new restaurant profile and start accepting orders</p>
+                        <a href="{% url 'open_add_restaurant' %}" class="btn btn-primary btn-block">
+                            + Add Restaurant
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card slide-in">
+                    <div style="font-size: 3rem; padding: 2rem; background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%); color: white; display: flex; align-items: center; justify-content: center;">📋</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Manage Restaurants</h3>
+                        <p class="card-description">View, edit, and delete your restaurant listings</p>
+                        <a href="{% url 'open_show_restaurant' %}" class="btn btn-primary btn-block">
+                            View All Restaurants
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card slide-in">
+                    <div style="font-size: 3rem; padding: 2rem; background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white; display: flex; align-items: center; justify-content: center;">🍴</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Update Menu</h3>
+                        <p class="card-description">Add, edit, or remove menu items from your restaurants</p>
+                        <a href="{% url 'open_show_restaurant' %}" class="btn btn-primary btn-block">
+                            Manage Menu
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MealMate. All rights reserved.</p>
+    </footer>
+</body>
+</html>
